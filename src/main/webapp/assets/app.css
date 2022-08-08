@@ -1,0 +1,109 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Cookie&family=Oleo+Script+Swash+Caps:wght@400;700&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,200;0,300;0,700;0,800;1,100;1,300;1,500;1,700&display=swap');
+:root{
+    --background-color : #e7e6fe;
+    --primary-color: #060863;
+    --bold-font-weight: 700px;
+    --default-font-size: 24px;
+    --border-radius: 50px ;
+    --box-shadow: 2px 1px 11px 0px rgba(0,0,0,0.75);
+
+    --white: white;
+}
+body{
+    background-color: var(--background-color);
+    font-family: 'Cabin', sans-serif;
+}
+.container-fluid{
+    padding: 0 40px ;
+}
+.navbar{
+    background-color: var(--background-color);
+}
+.brand__name{
+    color: var(--primary-color);
+    font-weight: var(--bold-font-weight);
+    font-size: var(--default-font-size);
+}
+.register__card{
+    /*box-shadow: var(--box-shadow);*/
+    border: none;
+    border-radius: var(--border-radius);
+}
+.submit__button{
+    box-shadow: var(--box-shadow);
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 10px;
+}
+.submit__button:hover{
+    transform: translate(-2px, -2px);
+}
+.register__form__logo{
+    font-size: 26px;
+    font-weight: var(--bold-font-weight);
+    color: var(--primary-color);
+}
+.register__card__image{
+    height: 430px;
+    width: 350px;
+}
+
+.product__name{
+    color: var(--primary-color) !important;
+    font-size: 24px;
+    font-weight: var(--bold-font-weight);
+}
+.cart__button{
+    color: var(--primary-color);
+    font-size: 24px;
+    border: none;
+}
+
+.add__to__cart__button{
+    box-shadow: var(--box-shadow);
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 10px;
+}
+.add__to__cart__button:hover{
+    transform: translate(-2px, -2px);
+}
+
+.cart__body{
+    background-color: var(--background-color);
+    width: 25% !important;
+}
+
+.cart__item__count{
+    font-size: 11px !important;
+    margin-top: 12px;
+}
+.profile__dropdown{
+    min-width: 300px !important;
+    border: none;
+
+
+}
+.profile__image__avatar__dropdown{
+    width: 70px;
+    height: 70px;
+}
+.profile__dropdown_list{
+    list-style: none;
+}
+
+.sidenav a{
+    transition: all 300ms ease;
+}
+.sidenav a:hover {
+    margin-left: 1rem;
+}
+.logout__sidenav{
+    margin-top: 100px !important;
+}
+
+.product__card__avatar{
+    border-radius: var(--border-radius);
+    border: none;
+}

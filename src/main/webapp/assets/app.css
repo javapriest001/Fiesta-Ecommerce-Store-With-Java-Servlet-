@@ -107,3 +107,14 @@ body{
     border-radius: var(--border-radius);
     border: none;
 }
+.admin__action{
+    font-size: 26px;
+
+}
+.admin__action:hover{
+    font-size: 22px;
+    color: var(--primary-color) !important;
+}
+.admin__action_container{
+    margin-left: 55px !important;
+}

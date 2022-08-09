@@ -1,9 +1,13 @@
 package DAO;
 
 import Services.CustomerServices;
-import models.Customer;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import models.Product;
+import models.User;
 
 import java.sql.*;
+import java.util.*;
 
 public class CustomerDAO implements CustomerServices {
     private Connection connection;
@@ -45,5 +49,79 @@ public class CustomerDAO implements CustomerServices {
         return message;
     }
 
+    public String loginCustomer(String email, String password , HttpServletRequest request){
+        String message = "";
+        try{
+            PreparedStatement User = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
+            User.setString(1, email);
+            ResultSet user = User.executeQuery();
+            if (user.next()){
+                if (user.getString("password").equalsIgnoreCase(password)){
+                    models.User loggedInUser = new User(user.getString("name") , user.getString("email"), user.getString("password") , user.getString("avatar")  );
+                    HttpSession httpSession = request.getSession();
+                    httpSession.setAttribute("email" , loggedInUser.getEmail());
+                    httpSession.setAttribute("id" , loggedInUser.getId());
+                    message = "success";
+                }else {
+                    message = "incorrect password";
+                }
+            }else {
+                message = "user not found";
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  message;
+    }
+
+//    public Optional<Product> getProduct(int id){
+//        PreparedStatement checkUser = null;
+//        Optional<Product> product = null;
+//        try {
+//            PreparedStatement singleProduct = connection.prepareStatement("SELECT * FROM products WHERE id = ?");
+//            singleProduct.setInt(1, id);
+//            ResultSet resultSet = singleProduct.executeQuery();
+//            while(resultSet.next()){
+//                int productId = resultSet.getInt("id");
+//                String name = resultSet.getString("name");
+//                String description = resultSet.getString("description");
+//                double price = resultSet.getDouble("price");
+//                String category = resultSet.getString("category");
+//                String avatar = resultSet.getString("avatar");
+//                product = Optional.of(new Product(productId, name , description , price , avatar));
+//            }
+//        return  product;
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+    public List<Product> getAllProducts(){
+        List<Product> productList = new ArrayList<>();
+        try {
+            PreparedStatement products = connection.prepareStatement("SELECT * FROM products");
+            ResultSet resultSet = products.executeQuery();
+            while(resultSet.next()){
+                int productId = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                double price = resultSet.getDouble("price");
+                String category = resultSet.getString("category");
+                String avatar = resultSet.getString("avatar");
+                productList.add(new Product(productId, name , description , category,  price , avatar));
+            }
+            return  productList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+//    public HashMap<Integer , Product> addToCart(int id){
+//        HashMap<Integer , Product> cart = new HashMap<>();
+//        if (getProduct(id).isPresent()){
+//            Optional<Product> product = getProduct(id);
+//
+//        }
+//    }
 
 }

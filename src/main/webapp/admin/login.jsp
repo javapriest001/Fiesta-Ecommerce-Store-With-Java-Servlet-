@@ -5,11 +5,11 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <%--    custom css--%>
-    <link href="assets/app.css" rel="stylesheet">
+    <link href="../assets/app.css" rel="stylesheet">
     <%--    Icons Css--%>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
-<%--    Google Fonts--%>
+    <%--    Google Fonts--%>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Cookie&family=Oleo+Script+Swash+Caps:wght@400;700&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:ital,wght@0,200;0,300;0,700;0,800;1,100;1,300;1,500;1,700&display=swap" rel="stylesheet">
@@ -39,14 +39,14 @@
                 <div class="card-body">
                     <div class="row justify-content-center ">
                         <div class="col-md-4 align-items-center me-5">
-                            <img class="register__card__image" src="assets/img/image_processing20211110-31697-onp92b.png" alt="console">
+                            <img class="register__card__image" src="../assets/img/image_processing20211110-31697-onp92b.png" alt="console">
                         </div>
                         <div class="col-md-6 align-items-center mt-5">
-                            <form method="POST" action="${pageContext.request.contextPath}/LoginServlet">
+                            <form method="POST" action="${pageContext.request.contextPath}/AdminLoginServlet">
                                 <h3 class="text-center register__form__logo"><i class="bi bi-controller"></i></h3>
                                 <h5 class="text-center text-muted">Welcome Back to The Console!!</h5>
                                 <label for="email">Email</label>
-                                <input type="email" id="email" class="form-control mb-2"  placeholder="Enter Your Email..." name="email" required>
+                                <input type="email" id="email" class="form-control mb-2"  placeholder="Enter Your Email..." name="username" required>
                                 <label for="password">Password</label>
                                 <input type="password" id="password" class="form-control mb-2"  placeholder="Enter Your password..." name="password"  required>
                                 <h6 class="text-danger">I am not yet a Fiestan! <span><a href="index.jsp">Register</a></span></h6>

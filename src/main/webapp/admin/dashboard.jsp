@@ -1,13 +1,8 @@
+
 <%@ page import="models.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%--<%@taglib  uri ="http://java.sun.com/jsp/jstl/core" prefix = "c"%>--%>
-<%
+<%--<%@taglib prefix="" tagdir="" uri="" %>--%>
 
-    User user = (User) request.getSession().getAttribute("user");
-    if (request.getSession().getAttribute("id") == null){
-        response.sendRedirect("login.jsp");
-    }
-   %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,14 +28,13 @@
         <a class="navbar-brand brand__name"> FIESTA <span class="brand__icon"><i class="bi bi-controller"></i></span></a>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <h6 class="welcome__text pt-3 me-1">Welcome <%= request.getSession().getAttribute("email") %></h6>
+                <h6 class="welcome__text pt-3 me-1">Welcome Admin</h6>
             </li>
             <li class="nav-item me-2">
                 <div class="dropdown-center ">
                     <button class="btn btn-outline cart__button rounded-pill  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>
                     </button>
-
                     <div class="dropdown-menu shadow-sm  profile__dropdown  dropdown-menu-end ">
                         <div class="row justify-content-space ">
                             <div class="col-md-4">
@@ -60,7 +54,7 @@
                 </div>
             <li class="nav-item">
                 <button class="btn btn-outline cart__button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-basket2"></i>
-                    <span class=" position-absolute  badge  rounded-pill bg-danger cart__item__count"> </span>
+                    <span class=" position-absolute  badge  rounded-pill bg-danger cart__item__count"> 1</span>
                 </button>
             </li>
         </ul>
@@ -121,6 +115,14 @@
             </aside>
         </div>
         <div class="col-md-9 mt-5">
+            <div class="row justify-content-space mb-4">
+                <div class="col-md-9">
+                    <h6 class="text-muted">Admin Dashboard</h6>
+                </div>
+                <div class="col-md-3">
+                    <a href="${pageContext.request.contextPath}/admin/addProduct.jsp" class="btn btn-primary">Add New Product</a>
+                </div>
+            </div>
             <div class="row justify-content-space">
                 <div class="col-md-4">
                     <div class="card product__card__avatar">
@@ -128,26 +130,13 @@
                             <img src="../assets/img/image_processing20200613-24909-ixcptj.png" class="card-img-top" alt="product">
                             <div class="row justify-content-space">
                                 <div class="col-9"><h6>Product Name</h6></div>
-                                <div class="col-3"><i class="bi bi-heart"></i></div>
                             </div>
                             <h5 class="text-muted mb-2">$99.99</h5>
-                            <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-half"></i> </span>
-                            <button type="submit" class="btn btn-outline w-100 mt-2" value="Add To Cart"> Add To Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card product__card__avatar">
-                        <div class="card-body">
-                            <img src="../assets/img/image_processing20211110-31697-onp92b.png" class="card-img-top" alt="product">
-                            <div class="row justify-content-space">
-                                <div class="col-9"><h6>Product Name</h6></div>
-                                <div class="col-3"><i class="bi bi-heart"></i></div>
+                            <div class="d-flex admin__action_container">
+                                <a href="" class="ms-5 me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Product"><i class="bi bi-eye-fill"> </i></a>
+                                <a href="" class="me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Product"><i class="bi bi-pencil-square"> </i> </a>
+                                <a  href="" class=" admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete product"><i class="bi bi-trash"></i> </a>
                             </div>
-                            <h5 class="text-muted mb-2">$99.99</h5>
-                            <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-half"></i> </span>
-                            <button type="submit" class="btn btn-outline w-100 mt-2" value="Add To Cart"> Add To Cart</button>
                         </div>
                     </div>
                 </div>
@@ -158,11 +147,30 @@
                             <img src="../assets/img/image_processing20200613-24909-ixcptj.png" class="card-img-top" alt="product">
                             <div class="row justify-content-space">
                                 <div class="col-9"><h6>Product Name</h6></div>
-                                <div class="col-3"><i class="bi bi-heart"></i></div>
                             </div>
                             <h5 class="text-muted mb-2">$99.99</h5>
-                            <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-half"></i> </span>
-                            <button type="submit" class="btn btn-outline w-100 mt-2" value="Add To Cart"> Add To Cart</button>
+                            <div class="d-flex admin__action_container">
+                                <a href="" class="ms-5 me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Product"><i class="bi bi-eye-fill"> </i></a>
+                                <a href="" class="me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Product"><i class="bi bi-pencil-square"> </i> </a>
+                                <a  href="" class=" admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete product"><i class="bi bi-trash"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card product__card__avatar">
+                        <div class="card-body">
+                            <img src="../assets/img/image_processing20200613-24909-ixcptj.png" class="card-img-top" alt="product">
+                            <div class="row justify-content-space">
+                                <div class="col-9"><h6>Product Name</h6></div>
+                            </div>
+                            <h5 class="text-muted mb-2">$99.99</h5>
+                            <div class="d-flex admin__action_container">
+                                <a href="" class="ms-5 me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Product"><i class="bi bi-eye-fill"> </i></a>
+                                <a href="" class="me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Product"><i class="bi bi-pencil-square"> </i> </a>
+                                <a  href="" class=" admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete product"><i class="bi bi-trash"></i> </a>
+                            </div>
                         </div>
                     </div>
                 </div>

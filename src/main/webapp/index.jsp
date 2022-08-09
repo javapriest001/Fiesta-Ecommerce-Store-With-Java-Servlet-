@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -36,7 +37,7 @@
         <div class="col-sm-9">
             <div class="card register__card">
                 <div class="card-body">
-                  <h3> <% request.getAttribute("message"); %></h3>
+                  <h3><% request.getAttribute("message"); %></h3>
                     <div class="row justify-content-center ">
                         <div class="col-md-4 align-item-center me-5">
                             <img class="register__card__image" src="assets/img/image_processing20200613-24909-ixcptj.png" alt="console">

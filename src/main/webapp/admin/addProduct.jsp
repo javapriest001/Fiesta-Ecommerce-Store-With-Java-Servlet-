@@ -121,14 +121,14 @@
             <div class="card-body">
               <div class="row justify-content-center ">
                 <div class="col-md-6 align-items-center mt-3">
-                  <form method="POST" action="${pageContext.request.contextPath}/AdminLoginServlet">
+                  <form method="POST" action="${pageContext.request.contextPath}/AddProductServlet" enctype="multipart/form-data">
                     <label for="name">Product Name</label>
-                    <input type="email" id="name" class="form-control mb-2"  placeholder="Enter Product name..." name="name" required>
+                    <input type="text" id="name" class="form-control mb-2"  placeholder="Enter Product name..." name="name" required>
                     <label for="desc">Product Description</label>
                     <textarea  rows="4" cols="50" maxlength="200" id="desc" class="form-control mb-2"  placeholder="Enter Your password..." name="desc"  required></textarea>
                     <label for="price">Product Price</label>
                     <input type="number" id="price" class="form-control mb-2"  placeholder="Enter Your price..." name="price" required>
-                    <label for="category">Product Price</label>
+                    <label for="category">Product Category</label>
                     <select class="form-select mb-2" id="category" name="category" aria-label="Default select example">
                       <option selected>Select A category</option>
                       <option value="Console System">Console System</option>
@@ -137,7 +137,7 @@
                       <option value="Screens">Screens</option>
                     </select>
                     <label for="file">Product Image</label>
-                    <input type="file" id="file" class="form-control form-control-lg mb-2"  placeholder="Upload Image" name="file" required>
+                    <input type="text" id="file" class="form-control form-control-lg mb-2"  placeholder="Insert Image Url" name="file" required>
                     <input type="submit" class="w-100 submit__button py-2 border-0 mt-3" value="Add A New Console" >
                   </form>
                 </div>

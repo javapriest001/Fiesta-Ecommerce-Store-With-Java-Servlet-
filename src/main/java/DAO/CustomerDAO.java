@@ -97,24 +97,51 @@ public class CustomerDAO implements CustomerServices {
 //        }
 //    }
 
-    public List<Product> getAllProducts(){
+    public  List<Product> getAllProducts(String category){
         List<Product> productList = new ArrayList<>();
         try {
-            PreparedStatement products = connection.prepareStatement("SELECT * FROM products");
+            PreparedStatement products = connection.prepareStatement("SELECT * FROM products WHERE category = ?");
+            products.setString(1 , category);
             ResultSet resultSet = products.executeQuery();
             while(resultSet.next()){
                 int productId = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 String description = resultSet.getString("description");
                 double price = resultSet.getDouble("price");
-                String category = resultSet.getString("category");
+                String productCategory = resultSet.getString("category");
                 String avatar = resultSet.getString("avatar");
-                productList.add(new Product(productId, name , description , category,  price , avatar));
+
+                    productList.add(new Product(productId, name , description , productCategory,  price , avatar));
+
+
             }
             return  productList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Product getSingle(int id){
+        PreparedStatement products = null;
+        Product product = null;
+        try {
+            products = connection.prepareStatement("SELECT * FROM products WHERE id = ?");
+            products.setInt(1 , id);
+            ResultSet resultSet = products.executeQuery();
+            if (resultSet.next()){
+                int productId = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                double price = resultSet.getDouble("price");
+                String productCategory = resultSet.getString("category");
+                String avatar = resultSet.getString("avatar");
+
+                product = new Product(productId, name , description , productCategory,  price , avatar);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return product;
     }
 //    public HashMap<Integer , Product> addToCart(int id){
 //        HashMap<Integer , Product> cart = new HashMap<>();

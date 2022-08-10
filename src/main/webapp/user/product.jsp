@@ -1,7 +1,14 @@
+<%@ page import="models.Product" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
+
+    <%
+        Product product = (Product) request.getSession().getAttribute("product");
+
+
+    %>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <%--    custom css--%>
@@ -80,13 +87,13 @@
                 <div class="card-body">
                     <div class="row justify-content-space ">
                         <div class="col-md-4 align-item-center me-5">
-                            <img class="register__card__image" src="../assets/img/image_processing20200613-24909-ixcptj.png" alt="console">
+                            <img class="register__card__image" src="<%= product.getAvatar()%>" alt="console">
                         </div>
                         <div class="col-md-6 align-item-center mt-5">
-                           <h2 class="product__name">2022 X-BOX PRo MAX</h2>
+                           <h2 class="product__name"><%= product.getName()%></h2>
                             <div class="row justify-content-space mt-3">
                                 <div class="col-4 aligns-items-center ">
-                                    <h3 class="text-muted product__price">$99.00</h3>
+                                    <h3 class="text-muted product__price"><%= product.getPrice()%></h3>
                                     <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-half"></i> </span>
                                 </div>
                                 <div class="col-6 aligns-items-center">

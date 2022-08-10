@@ -3,12 +3,18 @@ package DAO;
 import Services.AdminServices;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import models.Product;
 import models.User;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminDAO implements AdminServices {
     private Connection connection;
@@ -72,5 +78,115 @@ public class AdminDAO implements AdminServices {
             throw new RuntimeException(e);
         }
         return  message;
+    }
+
+    public String addProduct(Product product){
+        String message = "";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO products(name, price, description, category ,  avatar) VALUES (?,?,?,?,?)");
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setString(3, product.getDesc());
+            preparedStatement.setString(4, product.getCategory());
+            preparedStatement.setString(5, product.getAvatar());
+            int affectedRows = preparedStatement.executeUpdate();
+            if ((affectedRows > 0)){
+                message = "product added";
+            }else {
+                message = "error";
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  message;
+    }
+
+    public boolean uploadFile(InputStream input , String path){
+        boolean isUploaded = false;
+
+        try{
+            byte[] count = new byte[input.available()];
+            input.read();
+            FileOutputStream fileOutputStream = new FileOutputStream(path);
+            fileOutputStream.write(count);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            isUploaded = true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return  isUploaded;
+    }
+
+    public List<Product> getAllProducts(String category){
+        List<Product> productList = new ArrayList<>();
+        try {
+            PreparedStatement products = connection.prepareStatement("SELECT * FROM products WHERE category = ?");
+            products.setString(1 , category);
+            ResultSet resultSet = products.executeQuery();
+            while(resultSet.next()){
+                int productId = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                double price = resultSet.getDouble("price");
+                String productCategory = resultSet.getString("category");
+                String avatar = resultSet.getString("avatar");
+
+                productList.add(new Product(productId, name , description , productCategory,  price , avatar));
+
+
+            }
+            return  productList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Product getSingle(int id){
+        PreparedStatement products = null;
+        Product product = null;
+        try {
+            products = connection.prepareStatement("SELECT * FROM products WHERE id = ?");
+            products.setInt(1 , id);
+            ResultSet resultSet = products.executeQuery();
+            if (resultSet.next()){
+                int productId = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                double price = resultSet.getDouble("price");
+                String productCategory = resultSet.getString("category");
+                String avatar = resultSet.getString("avatar");
+
+                product = new Product(productId, name , description , productCategory,  price , avatar);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return product;
+    }
+
+    public boolean updateProduct(Product product){
+        boolean isUpdated = false;
+        PreparedStatement products = null;
+        try {
+            products = connection.prepareStatement("UPDATE products SET name = ?, price = ?, description = ? , category = ? , avatar = ?  WHERE id = ?");
+            products.setString(1 , product.getName());
+            products.setDouble(2 , product.getPrice());
+            products.setString(3 , product.getDesc());
+            products.setString(4 , product.getCategory());
+            products.setString(5 , product.getAvatar());
+            products.setInt(6 , product.getId());
+
+            int affectedCol = products.executeUpdate();
+            if(affectedCol > 0){
+                isUpdated = true;
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return isUpdated;
     }
 }

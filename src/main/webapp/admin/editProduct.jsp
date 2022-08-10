@@ -1,20 +1,13 @@
+
 <%@ page import="models.User" %>
-<%@ page import="java.util.List" %>
 <%@ page import="models.Product" %>
-<%@ page import="DAO.CustomerDAO" %>
-<%@ page import="Config.Db_Config" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@taglib  uri ="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%
 
-   // User user = (User) request.getSession().getAttribute("user");
-    CustomerDAO customerDAO = new CustomerDAO(Db_Config.connection());
-    List<Product> productList = customerDAO.getAllProducts("Console System");
-    request.setAttribute("productList" , productList);
-    if (request.getSession().getAttribute("id") == null){
-        response.sendRedirect("login.jsp");
-    }
-   %>
+    Product product = (Product) request.getSession().getAttribute("editProduct");
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,20 +27,19 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg shadow-sm">
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top">
 
     <div class="container-fluid aligns-items-center">
         <a class="navbar-brand brand__name"> FIESTA <span class="brand__icon"><i class="bi bi-controller"></i></span></a>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <h6 class="welcome__text pt-3 me-1">Welcome <%= request.getSession().getAttribute("email") %></h6>
+                <h6 class="welcome__text pt-3 me-1">Welcome Admin</h6>
             </li>
             <li class="nav-item me-2">
                 <div class="dropdown-center ">
                     <button class="btn btn-outline cart__button rounded-pill  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>
                     </button>
-
                     <div class="dropdown-menu shadow-sm  profile__dropdown  dropdown-menu-end ">
                         <div class="row justify-content-space ">
                             <div class="col-md-4">
@@ -67,7 +59,7 @@
                 </div>
             <li class="nav-item">
                 <button class="btn btn-outline cart__button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-basket2"></i>
-                    <span class=" position-absolute  badge  rounded-pill bg-danger cart__item__count"> </span>
+                    <span class=" position-absolute  badge  rounded-pill bg-danger cart__item__count"> 1</span>
                 </button>
             </li>
         </ul>
@@ -84,7 +76,7 @@
         </button>
     </div>
     <div class="offcanvas-body">
-        ....
+        ...
     </div>
 </div>
 
@@ -129,22 +121,36 @@
         </div>
         <div class="col-md-9 mt-5">
             <div class="row justify-content-space">
-                <c:forEach var="product" items="${productList}">
-                    <div class="col-md-4">
-                        <div class="card product__card__avatar">
-                            <div class="card-body">
-                                <img src="${product.avatar}" class="card-img-top" alt="product">
-                                <div class="row justify-content-space">
-                                    <div class="col-9"><h6><a style="text-decoration: none" href="${pageContext.request.contextPath}/ShowProductServlet?id=${product.id}">${product.name}</a></h6></div>
-                                    <div class="col-3"><i class="bi bi-heart"></i></div>
+                <div class="col-sm-9 align-items-center">
+                    <div class="card register__card">
+                        <div class="card-body">
+                            <div class="row justify-content-center ">
+                                <div class="col-md-6 align-items-center mt-3">
+                                    <form method="POST" action="${pageContext.request.contextPath}/UpdateProductServlet" enctype="multipart/form-data">
+                                        <input type="hidden"  class="form-control mb-2" value="<%= product.getId()%>"  placeholder="Enter Product name..." name="id" required>
+                                        <label for="name">Product Name</label>
+                                        <input type="text" id="name" class="form-control mb-2" value="<%= product.getName()%>"  placeholder="Enter Product name..." name="name" required>
+                                        <label for="desc">Product Description</label>
+                                        <textarea  rows="4" cols="50" maxlength="200" id="desc" class="form-control mb-2"  placeholder="Enter Your password..." name="desc"  required><%= product.getDesc()%></textarea>
+                                        <label for="price">Product Price</label>
+                                        <input type="number" id="price" class="form-control mb-2"  value="<%= product.getPrice()%>"  placeholder="Enter Your price..." name="price" required>
+                                        <label for="category">Product Category</label>
+                                        <select class="form-select mb-2" id="category" name="category" value=""  aria-label="Default select example">
+                                            <option selected ><%= product.getCategory()%></option>
+                                            <option value="Console System">Console System</option>
+                                            <option value="Console CD">Console CD</option>
+                                            <option value="Console Controllers">Console Controllers</option>
+                                            <option value="Screens">Screens</option>
+                                        </select>
+                                        <label for="file">Product Image</label>
+                                        <input type="text" id="file" value="<%= product.getAvatar()%>" class="form-control form-control-lg mb-2"  placeholder="Insert Image Url" name="file" required>
+                                        <input type="submit" class="w-100 submit__button py-2 border-0 mt-3" value="Add A New Console" >
+                                    </form>
                                 </div>
-                                <h5 class="text-muted mb-2">${product.price}</h5>
-                                <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-fill"></i> </span>   <span><i class="bi bi-star-fill"></i> </span>  <span><i class="bi bi-star-half"></i> </span>
-                                <button type="submit" class="btn btn-outline w-100 mt-2" value="Add To Cart">Add To Cart</button>
                             </div>
                         </div>
                     </div>
-                </c:forEach>
+                </div>
             </div>
         </div>
     </div>
@@ -157,3 +163,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
+

@@ -26,6 +26,13 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
+    public User(int id ,String name, String email, String password, String avatar) {
+        this.id = id;
+        this.Name = name;
+        this.Email = email;
+        this.password = password;
+        this.avatar = avatar;
+    }
     //Admin
     public User(String name, String username, String password) {
         Name = name;

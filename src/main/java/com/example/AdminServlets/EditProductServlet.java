@@ -14,10 +14,12 @@ public class EditProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+        System.out.println("Edit servlet id:" + id);
         AdminDAO adminDAO = new AdminDAO(Db_Config.connection());
         Product product = adminDAO.getSingle(id);
         if (product != null){
             HttpSession session = request.getSession();
+            System.out.println(product);
             session.setAttribute("editProduct" , product );
             response.sendRedirect("admin/editProduct.jsp");
         }

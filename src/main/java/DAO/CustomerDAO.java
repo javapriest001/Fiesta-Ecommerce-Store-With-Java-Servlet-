@@ -13,12 +13,9 @@ public class CustomerDAO implements CustomerServices {
     private Connection connection;
     private ResultSet result;
     private PreparedStatement statement;
-
     public CustomerDAO(Connection connection) {
         this.connection = connection;
     }
-
-
     @Override
     public String registerCustomer(String name, String email, String password, String avatar) {
         String message = "";
@@ -48,8 +45,7 @@ public class CustomerDAO implements CustomerServices {
         }
         return message;
     }
-
-    public String loginCustomer(String email, String password , HttpServletRequest request){
+    public String loginCustomer(String email, String password , HttpServletRequest request) {
         String message = "";
         try{
             PreparedStatement User = connection.prepareStatement("SELECT * FROM users WHERE email = ?");
@@ -57,7 +53,7 @@ public class CustomerDAO implements CustomerServices {
             ResultSet user = User.executeQuery();
             if (user.next()){
                 if (user.getString("password").equalsIgnoreCase(password)){
-                    models.User loggedInUser = new User(user.getString("name") , user.getString("email"), user.getString("password") , user.getString("avatar")  );
+                    models.User loggedInUser = new User(user.getInt("id") , user.getString("name") , user.getString("email"), user.getString("password") , user.getString("avatar") );
                     HttpSession httpSession = request.getSession();
                     httpSession.setAttribute("email" , loggedInUser.getEmail());
                     httpSession.setAttribute("id" , loggedInUser.getId());
@@ -74,7 +70,49 @@ public class CustomerDAO implements CustomerServices {
         }
         return  message;
     }
+    public boolean addToWishList(int user_id, int product_id){
+        boolean isAdded = false;
+        try {
+            PreparedStatement duplicateEntry = connection.prepareStatement("SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?");
+            duplicateEntry.setInt(1, user_id);
+            duplicateEntry.setInt(2, product_id);
+            ResultSet resultSet = duplicateEntry.executeQuery();
+            if (!resultSet.next()){
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO wishlist(user_id , product_id) VALUES(?,?)");
+                preparedStatement.setInt(1, user_id);
+                preparedStatement.setInt(2, product_id);
+                preparedStatement.executeUpdate();
+                isAdded =  preparedStatement.executeUpdate() > 0;
+            }
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  isAdded;
+    }
+    public List<Product> getWishlists(int id){
+        PreparedStatement wishlistProduct = null;
+        List<Product> wishlist = new ArrayList<>();
+        try {
+            wishlistProduct = connection.prepareStatement("SELECT wishlist.id , products.name, products.description , products.price , products.category , products.avatar FROM wishlist INNER JOIN products ON wishlist.id = products.id WHERE user_id = ? ");
+            wishlistProduct.setInt(1, id);
+            ResultSet resultSet = wishlistProduct.executeQuery();
+            while (resultSet.next()){
+                Product product = new Product();
+                product.setName(resultSet.getString("name"));
+                product.setDesc(resultSet.getString("description"));
+                product.setPrice(Double.parseDouble(resultSet.getString("price")));
+                product.setAvatar(resultSet.getString("avatar"));
+                product.setCategory(resultSet.getString("category"));
+                wishlist.add(product);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return wishlist;
+    }
 //    public Optional<Product> getProduct(int id){
 //        PreparedStatement checkUser = null;
 //        Optional<Product> product = null;
@@ -95,9 +133,8 @@ public class CustomerDAO implements CustomerServices {
 //        } catch (SQLException e) {
 //            throw new RuntimeException(e);
 //        }
-//    }
-
-    public  List<Product> getAllProducts(String category){
+//
+    public  List<Product> getAllProducts(String category) {
         List<Product> productList = new ArrayList<>();
         try {
             PreparedStatement products = connection.prepareStatement("SELECT * FROM products WHERE category = ?");
@@ -120,7 +157,6 @@ public class CustomerDAO implements CustomerServices {
             throw new RuntimeException(e);
         }
     }
-
     public Product getSingle(int id){
         PreparedStatement products = null;
         Product product = null;

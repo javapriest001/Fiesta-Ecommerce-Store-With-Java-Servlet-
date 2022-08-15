@@ -22,14 +22,12 @@ public class RegistrationServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String avatar = request.getParameter("avatar");
+
         String register = customerDAO.registerCustomer(name, email , password , avatar);
-       // request.getRequestDispatcher("index.jsp").forward(request, response);
+
         if (register.equalsIgnoreCase("registered")){
-            request.setAttribute("message" , register);
             response.sendRedirect("login.jsp");
         }else if (register.equalsIgnoreCase("user exists")){
-            request.setAttribute("message" , register);
-       //   getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
            response.sendRedirect("index.jsp");
         }
 

@@ -72,9 +72,17 @@ body{
 
 .cart__body{
     background-color: var(--background-color);
-    width: 25% !important;
+    padding: 0 0 !important;
 }
 
+.offcanvas-body {
+    flex-grow: 1;
+    padding: 0 0 !important;
+    overflow-y: auto;
+}
+.cart__container{
+    padding:  0 0 !important;
+}
 .cart__item__count{
     font-size: 11px !important;
     margin-top: 12px;

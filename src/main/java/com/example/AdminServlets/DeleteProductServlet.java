@@ -1,5 +1,7 @@
 package com.example.AdminServlets;
 
+import Config.Db_Config;
+import DAO.AdminDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -15,6 +17,12 @@ public class DeleteProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            int id = Integer.parseInt(request.getParameter("id"));
+        AdminDAO adminDAO = new AdminDAO(Db_Config.connection());
+        boolean isDeleted = adminDAO.deleteProduct(id);
+        if(isDeleted){
+            response.sendRedirect("admin/dashboard.jsp");
+        }
 
     }
 }

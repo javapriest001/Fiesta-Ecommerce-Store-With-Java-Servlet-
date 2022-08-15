@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebServlet(name = "AdminRegisterServlet", value = "/AdminRegisterServlet")
 public class AdminRegisterServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void  doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 

@@ -1,15 +1,17 @@
-package com.example.AdminServlets;
-
 import Config.Db_Config;
 import DAO.CustomerDAO;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import models.Product;
+import models.User;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-@WebServlet(name = "WishlistServlet", value = "/WishlistServlet")
-public class WishlistServlet extends HttpServlet {
+@WebServlet(name = "RemoveCartServlet", value = "/RemoveCartServlet")
+public class RemoveCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -17,13 +19,12 @@ public class WishlistServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int UserId = Integer.parseInt(request.getParameter("user_id"));
-        int productId = Integer.parseInt(request.getParameter("product_id"));
 
+        int id = Integer.parseInt(request.getParameter("product_id"));
         CustomerDAO customerDAO = new CustomerDAO(Db_Config.connection());
-        customerDAO.addWishlist(UserId , productId);
-//        if (isAdded){
-//            response.sendRedirect("user/dashboard.jsp");
-//        }
+        Map<Integer, Product> cartP = (HashMap<Integer, Product>)request.getSession().getAttribute("cart");
+
+        cartP = customerDAO.deleteFromCart(id, cartP);
+
     }
 }

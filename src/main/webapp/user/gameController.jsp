@@ -1,28 +1,28 @@
+
 <%@ page import="models.User" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Product" %>
-<%@ page import="DAO.CustomerDAO" %>
-<%@ page import="Config.Db_Config" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="DAO.AdminDAO" %>
+<%@ page import="Config.Db_Config" %>
+<%@ page import="DAO.CustomerDAO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%--<%@taglib prefix="" tagdir="" uri="" %>--%>
+
+
 <%@taglib  uri ="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
+
 <%
-   // User user = (User) request.getSession().getAttribute("user");
+
+    // User user = (User) request.getSession().getAttribute("user");
     CustomerDAO customerDAO = new CustomerDAO(Db_Config.connection());
-    List<Product> productList = customerDAO.getAllProducts("Console System");
+    List<Product> productList = customerDAO.getAllProducts("Console Controllers");
     request.setAttribute("productList" , productList);
 
-    if (request.getSession().getAttribute("id") == null){
-        response.sendRedirect("../login.jsp");
-    }
-    Map<Integer, Product> cart = (HashMap<Integer, Product>)request.getAttribute("cart");
-
-    //customerDAO.findWishlist();
-
-   %>
+%>
 <!DOCTYPE html>
+
+
 <%@include file="includes/header.jsp" %>
 
 <script>
@@ -81,11 +81,19 @@
         })
     })
 </script>
-
 <div class="container-fluid">
     <div class="row justify-content-space">
         <%@include file="includes/sidenav.jsp" %>
+
         <div class="col-md-9 mt-5">
+            <div class="row justify-content-space mb-4">
+                <div class="col-md-9">
+                    <h6 class="text-muted">Controllers</h6>
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
             <div class="row justify-content-space">
                 <c:forEach var="product" items="${productList}">
                     <div class="col-md-4">
@@ -94,12 +102,11 @@
                                 <img src="${product.avatar}" class="card-img-top" alt="product">
                                 <div class="row justify-content-space">
                                     <div class="col-9"><h6><a style="text-decoration: none" href="${pageContext.request.contextPath}/ShowProductServlet?id=${product.id}">${product.name}</a></h6></div>
-                                   <form id="addform${product.id}" action="${pageContext.request.contextPath}/WishlistServlet" method="POST">
-                                       <input type="hidden" name="product_id" value="${product.id}">
-                                       <input type="hidden" name="user_id" value="<%= request.getSession().getAttribute("id")%>">
-                                       <div class="col-3"><button class="wishlist" id="${product.id}"  data-bs-user-id="<%= request.getSession().getAttribute("id")%>" data-bs-product-id="${product.id}"  style="border: none; outline: none; background-color: transparent" type="submit"> <i class="bi bi-heart"></i></button></div>
-
-                                   </form>
+                                    <form id="addform${product.id}" action="${pageContext.request.contextPath}/WishlistServlet" method="POST">
+                                        <input type="hidden" name="product_id" value="${product.id}">
+                                        <input type="hidden" name="user_id" value="<%= request.getSession().getAttribute("id")%>">
+                                        <div class="col-3"><button class="wishlist" id="${product.id}"  data-bs-user-id="<%= request.getSession().getAttribute("id")%>" data-bs-product-id="${product.id}"  style="border: none; outline: none; background-color: transparent" type="submit"> <i class="bi bi-heart"></i></button></div>
+                                    </form>
                                     <form id="deleteform${product.id}" style="display: none" action="${pageContext.request.contextPath}/DeleteProductServlet" method="POST">
                                         <input type="hidden" name="product_id" value="${product.id}">
                                         <input type="hidden" name="user_id" value="<%= request.getSession().getAttribute("id")%>">
@@ -128,3 +135,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
+
+

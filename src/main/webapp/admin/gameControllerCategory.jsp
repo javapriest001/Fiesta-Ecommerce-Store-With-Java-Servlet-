@@ -14,7 +14,7 @@
 
     // User user = (User) request.getSession().getAttribute("user");
     AdminDAO adminDAO = new AdminDAO(Db_Config.connection());
-    List<Product> productList = adminDAO.getAllProducts("Console System");
+    List<Product> productList = adminDAO.getAllProducts("Console Controllers");
     request.setAttribute("productList" , productList);
 
 %>
@@ -47,9 +47,7 @@
                                 <div class="d-flex admin__action_container">
                                     <a href="${pageContext.request.contextPath}/AdminShowProductServlet?id=${product.id}" class="ms-5 me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View Product"><i class="bi bi-eye-fill"> </i></a>
                                     <a href="${pageContext.request.contextPath}/EditProductServlet?id=${product.id}" class="me-2 admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit Product"><i class="bi bi-pencil-square"> </i> </a>
-                                    <form action="${pageContext.request.contextPath}/DeleteProductServlet?id=${product.id} " method="POST">
-                                        <div class="col-3"><button class="deletewishlist" id="delete${product.id}" onclick="confirm('Are You Sure You Want To Delete This?!')"   style="border: none; outline: none; background-color: transparent; color: #060863;" type="submit"> <i class="bi bi-trash"></i> </button></div>
-                                    </form>
+                                    <a  href="${pageContext.request.contextPath}/DeleteProductServlet?id=${product.id}" onclick="confirm('Are You Sure You Want To Delete This?!')" class=" admin__action text-muted" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Delete product"><i class="bi bi-trash"></i> </a>
                                 </div>
                             </div>
                         </div>
@@ -67,3 +65,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
+
